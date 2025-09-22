@@ -64,5 +64,5 @@ npm run typeorm migration:run
 ### 6. Start Development Server
 
 ```bash
-npm run start:dev
+npm run run:dev
 ```
