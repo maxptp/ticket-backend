@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
-import { TicketService } from './ticket.service';
-import { TicketController } from './ticket.controller';
+import { TicketsService } from './ticket.service';
+import { TicketsController } from './ticket.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Ticket } from '../model/ticket.entity';
+import { QueueModule } from 'src/queue/queue.module';
 
 @Module({
-  providers: [TicketService],
-  controllers: [TicketController],
-  exports: [TicketService],
+  imports: [TypeOrmModule.forFeature([Ticket]), QueueModule],
+  providers: [TicketsService],
+  controllers: [TicketsController],
+  exports: [TicketsService],
 })
 export class TicketModule {}
