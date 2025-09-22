@@ -22,7 +22,7 @@ A simple Ticket System with CRUD operations, background jobs, and queue monitori
 
 ### 1. Environment Variables (`.env`)
 
-````env
+```env
 NODE_ENV=develop
 
 # PG config
@@ -35,28 +35,24 @@ POSTGRES_DATABASE=ticket_local_api
 # Redis
 REDIS_HOST=host.docker.internal
 REDIS_PORT=6379
+```
 
 ### 2. Create Databases
+
 CREATE DATABASE ticket_local_api;
 
 ### 3. Install Dependencies
+
 npm install
 
 ### 4. Run Redis
-```bash
+
 docker run -d --name redis -p 6379:6379 redis:7-alpine
-```
 
 ### 5. Run Migrations
 
-```bash
 npm run typeorm migration:run
-```
 
 ### 6. Start Development Server
 
-```bash
 npm run start:dev
-```
-```
-````
