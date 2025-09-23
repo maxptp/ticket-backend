@@ -23,7 +23,8 @@
     "migration:create": "npm run typeorm migration:create -- -d ./db/data-source.ts",
     "migration:run": "npm run typeorm migration:run -- -d ./db/data-source.ts",
     "migration:revert": "npm run typeorm migration:revert -- -d ./db/data-source.ts",
-    "migration:show": "npm run typeorm migration:show -- -d ./db/data-source.ts"
+    "migration:show": "npm run typeorm migration:show -- -d ./db/data-source.ts",
+    "docker:migration:run": "docker exec -it `docker ps -q --filter ancestor=ticket-api` sh -c 'npm run migration:run'"
   },
   "engines": {
     "npm": ">=10.0.0",
