@@ -55,14 +55,14 @@ npm install
 docker run -d --name redis -p 6379:6379 redis:7-alpine
 ```
 
-### 5. Run Migrations
-
-```bash
-npm run typeorm migration:run
-```
-
-### 6. Start Development Server
+### 5. Start Development Server
 
 ```bash
 npm run run:dev
+```
+
+### 6. Run Migrations
+
+```bash
+npm run docker:migration:run
 ```
