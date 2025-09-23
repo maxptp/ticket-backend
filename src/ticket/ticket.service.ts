@@ -6,6 +6,7 @@ import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { ListTicketsQueryDto } from './dto/list-tickets-query.dto';
 import { TicketsQueueService } from '../queue/tickets-queue.service';
+import { logWithTime } from 'src/utils/logger.util';
 
 @Injectable()
 export class TicketsService {
@@ -18,6 +19,10 @@ export class TicketsService {
   async create(dto: CreateTicketDto): Promise<Ticket> {
     const ticket = this.ticketRepo.create(dto);
     const saved = await this.ticketRepo.save(ticket);
+
+    logWithTime(
+      `🆕 Ticket ${saved.id} created: "${saved.title}" (priority=${saved.priority}, status=${saved.status})`,
+    );
 
     await this.queueService.enqueueTicketJobs(saved);
 
@@ -79,6 +84,8 @@ export class TicketsService {
 
     const [data, total] = await qb.getManyAndCount();
 
+    logWithTime(`📋 Retrieved ${data.length} tickets`);
+
     return {
       data,
       meta: {
@@ -93,14 +100,23 @@ export class TicketsService {
 
   async findOne(id: number): Promise<Ticket> {
     const ticket = await this.ticketRepo.findOne({ where: { id } });
-    if (!ticket) throw new NotFoundException(`Ticket ${id} not found`);
+    if (!ticket) {
+      logWithTime(`❓ Ticket ${id} not found`);
+      throw new NotFoundException(`Ticket ${id} not found`);
+    }
+    logWithTime(
+      `📄 Retrieved Ticket ${ticket.id}: "${ticket.title}" (priority=${ticket.priority}, status=${ticket.status})`,
+    );
     return ticket;
   }
 
   async softDelete(id: number): Promise<void> {
+    const ticket = await this.findOne(id);
     const result = await this.ticketRepo.softDelete(id);
+
     if (result.affected === 0) {
       throw new NotFoundException(`Ticket ${id} not found`);
     }
+    logWithTime(`🗑️ Ticket ${ticket.id} - "${ticket.title}" soft-deleted`);
   }
 }

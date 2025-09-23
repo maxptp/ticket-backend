@@ -45,19 +45,7 @@ export class Ticket {
   status: TicketStatus;
 
   @Column({ type: 'timestamptz', nullable: true })
-  slaDueAt?: Date | null;
-
-  @Column({ type: 'timestamptz', nullable: true })
-  notifiedAt?: Date | null;
-
-  @Column({ type: 'timestamptz', nullable: true })
   resolvedAt?: Date | null;
-
-  @Column({ type: 'varchar', length: 128, nullable: true })
-  notifyJobId?: string | null;
-
-  @Column({ type: 'varchar', length: 128, nullable: true })
-  slaJobId?: string | null;
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
